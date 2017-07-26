@@ -35,6 +35,9 @@ typedef double f64;
 
 #define arraycount(Array) (sizeof(Array) / sizeof((Array)[0]))
 
+#define PI32 3.141592653589793238462f
+#define TAU32 6.28318530717958647692f
+
 
 
 #endif
