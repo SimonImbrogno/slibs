@@ -1,5 +1,5 @@
-#ifndef S_VECTORS_H
-#define S_VECTORS_H
+#ifndef S_VECTOR_H
+#define S_VECTOR_H
 
 
 /* 
@@ -87,145 +87,41 @@ union V4
 //NEGATION//
 ////////////
 
-V2 operator-(V2 A) 
-{
-    V2 result; 
-    result.x = -A.x;
-    result.y = -A.y;
-    return result;
-}
-
-V3 operator-(V3 A) 
-{
-    V3 result; 
-    result.x = -A.x;
-    result.y = -A.y;
-    result.z = -A.z;
-    return result;
-}
-
-V4 operator-(V4 A) 
-{
-    V4 result; 
-    result.x = -A.x;
-    result.y = -A.y;
-    result.z = -A.z;
-    result.w = -A.w;
-    return result;
-}
-
+V2 operator-(V2 A) { return V2(-A.x, -A.y); }
+V3 operator-(V3 A) { return V3(-A.x, -A.y, -A.z); }
+V4 operator-(V4 A) { return V4(-A.x, -A.y, -A.z, -A.w); }
 
 ////////////
 //ADDITION//
 ////////////
 
-V2
-operator+(V2 A, V2 B)
-{
-    V2 result;
-    result.x = A.x + B.x;
-    result.y = A.y + B.y;
-    return result;
-}
-
-V3
-operator+(V3 A, V3 B)
-{
-    V3 result;
-    result.x = A.x + B.x;
-    result.y = A.y + B.y;
-    result.z = A.z + B.z;
-    return result;
-}
-
-V4
-operator+(V4 A, V4 B)
-{
-    V4 result;
-    result.x = A.x + B.x;
-    result.y = A.y + B.y;
-    result.z = A.z + B.z;
-    result.w = A.w + B.w;
-    return result;
-}
+V2 operator+(V2 A, V2 B) { return V2(A.x + B.x, A.y + B.y); }
+V3 operator+(V3 A, V3 B) { return V3(A.x + B.x, A.y + B.y, A.z + B.z); }
+V4 operator+(V4 A, V4 B) { return V4(A.x + B.x, A.y + B.y, A.z + B.z, A.w + B.w); }
 
 V2 & operator+=(V2 &A, V2 B) { A = A + B; return A; }
 V3 & operator+=(V3 &A, V3 B) { A = A + B; return A; }
 V4 & operator+=(V4 &A, V4 B) { A = A + B; return A; }
 
-
 ///////////////
 //SUBTRACTION//
 ///////////////
 
-V2
-operator-(V2 A, V2 B)
-{
-    V2 result;
-    result.x = A.x - B.x;
-    result.y = A.y - B.y;
-    return result;
-}
-
-V3
-operator-(V3 A, V3 B)
-{
-    V3 result;
-    result.x = A.x - B.x;
-    result.y = A.y - B.y;
-    result.z = A.z - B.z;
-    return result;
-}
-
-V4
-operator-(V4 A, V4 B)
-{
-    V4 result;
-    result.x = A.x - B.x;
-    result.y = A.y - B.y;
-    result.z = A.z - B.z;
-    result.w = A.w - B.w;
-    return result;
-}
+V2 operator-(V2 A, V2 B) { return V2(A.x - B.x, A.y - B.y); }
+V3 operator-(V3 A, V3 B) { return V3(A.x - B.x, A.y - B.y, A.z - B.z); }
+V4 operator-(V4 A, V4 B) { return V4(A.x - B.x, A.y - B.y, A.z - B.z, A.w - B.w); }
 
 V2 & operator-=(V2 &A, V2 B) { A = A - B; return A; }
 V3 & operator-=(V3 &A, V3 B) { A = A - B; return A; }
 V4 & operator-=(V4 &A, V4 B) { A = A - B; return A; }
 
-
 /////////////////////////
 //SCALAR MULTIPLICATION//
 /////////////////////////
 
-V2 
-operator*(V2 A, f32 B)
-{
-    V2 result;
-    result.x = A.x*B;
-    result.y = A.y*B;
-    return result;
-}
-
-V3 
-operator*(V3 A, f32 B)
-{
-    V3 result;
-    result.x = A.x*B;
-    result.y = A.y*B;
-    result.z = A.z*B;
-    return result;
-}
-
-V4 
-operator*(V4 A, f32 B)
-{
-    V4 result;
-    result.x = A.x*B;
-    result.y = A.y*B;
-    result.z = A.z*B;
-    result.w = A.w*B;
-    return result;
-}
+V2 operator*(V2 A, f32 B) { return V2(A.x*B, A.y*B); }
+V3 operator*(V3 A, f32 B) { return V3(A.x*B, A.y*B, A.z*B); }
+V4 operator*(V4 A, f32 B) { return V4(A.x*B, A.y*B, A.z*B, A.w*B); }
 
 V2 operator*(f32 A, V2 B) { return B * A; }
 V3 operator*(f32 A, V3 B) { return B * A; }
@@ -235,7 +131,6 @@ V2 & operator*=(V2 &A, f32 B) { A = B * A; return A; }
 V3 & operator*=(V3 &A, f32 B) { A = B * A; return A; }
 V4 & operator*=(V4 &A, f32 B) { A = B * A; return A; }
 
-
 /////////////////////////
 //VECTOR MULTIPLICATION//
 /////////////////////////
@@ -244,36 +139,9 @@ inline f32 dotprod(V2 A, V2 B) { return (A.x*B.x) + (A.y*B.y); }
 inline f32 dotprod(V3 A, V3 B) { return (A.x*B.x) + (A.y*B.y) + (A.z*B.z); }
 inline f32 dotprod(V4 A, V4 B) { return (A.x*B.x) + (A.y*B.y) + (A.z*B.z) + (A.w*B.w); }
 
-inline V2
-hadamard(V2 A, V2 B)
-{
-    V2 result;
-    result.x = (A.x*B.x);
-    result.y = (A.y*B.y);
-    return result;
-}
-
-inline V3
-hadamard(V3 A, V3 B)
-{
-    V3 result;
-    result.x = (A.x*B.x);
-    result.y = (A.y*B.y);
-    result.z = (A.z*B.z);
-    return result;
-}
-
-inline V4
-hadamard(V4 A, V4 B)
-{
-    V4 result;
-    result.x = (A.x*B.x);
-    result.y = (A.y*B.y);
-    result.z = (A.z*B.z);
-    result.w = (A.w*B.w);
-    return result;
-}
-
+inline V2 hadamard(V2 A, V2 B) { return V2(A.x*B.x, A.y*B.y); }
+inline V3 hadamard(V3 A, V3 B) { return V3(A.x*B.x, A.y*B.y, A.z*B.z); }
+inline V4 hadamard(V4 A, V4 B) { return V4(A.x*B.x, A.y*B.y, A.z*B.z, A.w*B.w); }
 
 //////////
 //LENGTH//
@@ -287,7 +155,6 @@ inline f32 length_sq(V2 A) { return dotprod(A, A); }
 inline f32 length_sq(V3 A) { return dotprod(A, A); }
 inline f32 length_sq(V4 A) { return dotprod(A, A); }
 
-
 /////////////
 //NORMALIZE//
 /////////////
@@ -296,40 +163,17 @@ V2 normalize(V2 A) { return A * (1.0f / length(A)); }
 V3 normalize(V3 A) { return A * (1.0f / length(A)); }
 V4 normalize(V4 A) { return A * (1.0f / length(A)); }
 
-
 /////////
 //CLAMP//
 /////////
 
-V2
-clamp01(V2 A)
-{
-    V2 result;
-    result.x = A.x > 1.0 ? 1.0 : A.x < 0.0 ? 0.0 : A.x;
-    result.y = A.y > 1.0 ? 1.0 : A.y < 0.0 ? 0.0 : A.y;
-    return result;
-}
+#define S_CLAMP(n) (n)>1?1:(n)<0?0:n
 
-V3
-clamp01(V3 A)
-{
-    V3 result;
-    result.x = A.x > 1.0 ? 1.0 : A.x < 0.0 ? 0.0 : A.x;
-    result.y = A.y > 1.0 ? 1.0 : A.y < 0.0 ? 0.0 : A.y;
-    result.z = A.z > 1.0 ? 1.0 : A.z < 0.0 ? 0.0 : A.z;
-    return result;
-}
+V2 clamp01(V2 A) { return V2(S_CLAMP(A.x), S_CLAMP(A.y)); }
+V3 clamp01(V3 A) { return V3(S_CLAMP(A.x), S_CLAMP(A.y), S_CLAMP(A.z)); }
+V4 clamp01(V4 A) { return V4(S_CLAMP(A.x), S_CLAMP(A.y), S_CLAMP(A.z), S_CLAMP(A.w)); }
 
-V4
-clamp01(V4 A)
-{
-    V4 result;
-    result.x = A.x > 1.0 ? 1.0 : A.x < 0.0 ? 0.0 : A.x;
-    result.y = A.y > 1.0 ? 1.0 : A.y < 0.0 ? 0.0 : A.y;
-    result.z = A.z > 1.0 ? 1.0 : A.z < 0.0 ? 0.0 : A.z;
-    result.w = A.w > 1.0 ? 1.0 : A.w < 0.0 ? 0.0 : A.w;
-    return result;
-}
+#undef S_CLAMP(n)
 
 
 
