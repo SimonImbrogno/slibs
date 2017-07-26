@@ -1,5 +1,5 @@
-#ifndef TYPES_H
-#define TYPES_H
+#ifndef S_TYPES_H
+#define S_TYPES_H
 
 
 
