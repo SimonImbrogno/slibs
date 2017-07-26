@@ -11,9 +11,8 @@
       runtime anyways.
 */
 
-
 #include <math.h>
-#include "types.h"
+#include "stypes.h"
 
 
 union V2
@@ -331,6 +330,7 @@ clamp01(V4 A)
     result.w = A.w > 1.0 ? 1.0 : A.w < 0.0 ? 0.0 : A.w;
     return result;
 }
+
 
 
 #endif
