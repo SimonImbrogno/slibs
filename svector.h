@@ -119,17 +119,17 @@ V4 & operator-=(V4 &A, V4 B) { A = A - B; return A; }
 //SCALAR MULTIPLICATION//
 /////////////////////////
 
-V2 operator*(V2 A, f32 B) { return V2(A.x*B, A.y*B); }
-V3 operator*(V3 A, f32 B) { return V3(A.x*B, A.y*B, A.z*B); }
-V4 operator*(V4 A, f32 B) { return V4(A.x*B, A.y*B, A.z*B, A.w*B); }
+V2 operator*(V2 A, f32 s) { return V2(A.x*s, A.y*s); }
+V3 operator*(V3 A, f32 s) { return V3(A.x*s, A.y*s, A.z*s); }
+V4 operator*(V4 A, f32 s) { return V4(A.x*s, A.y*s, A.z*s, A.w*s); }
 
-V2 operator*(f32 A, V2 B) { return B * A; }
-V3 operator*(f32 A, V3 B) { return B * A; }
-V4 operator*(f32 A, V4 B) { return B * A; }
+V2 operator*(f32 s, V2 A) { return A*s; }
+V3 operator*(f32 s, V3 A) { return A*s; }
+V4 operator*(f32 s, V4 A) { return A*s; }
 
-V2 & operator*=(V2 &A, f32 B) { A = B * A; return A; }
-V3 & operator*=(V3 &A, f32 B) { A = B * A; return A; }
-V4 & operator*=(V4 &A, f32 B) { A = B * A; return A; }
+V2 & operator*=(V2 &A, f32 s) { A = A*s; return A; }
+V3 & operator*=(V3 &A, f32 s) { A = A*s; return A; }
+V4 & operator*=(V4 &A, f32 s) { A = A*s; return A; }
 
 /////////////////////////
 //VECTOR MULTIPLICATION//
@@ -159,9 +159,9 @@ inline f32 length_sq(V4 A) { return dotprod(A, A); }
 //NORMALIZE//
 /////////////
 
-V2 normalize(V2 A) { return A * (1.0f / length(A)); }
-V3 normalize(V3 A) { return A * (1.0f / length(A)); }
-V4 normalize(V4 A) { return A * (1.0f / length(A)); }
+inline V2 normalize(V2 A) { return A * (1.0f / length(A)); }
+inline V3 normalize(V3 A) { return A * (1.0f / length(A)); }
+inline V4 normalize(V4 A) { return A * (1.0f / length(A)); }
 
 /////////
 //CLAMP//
@@ -169,9 +169,9 @@ V4 normalize(V4 A) { return A * (1.0f / length(A)); }
 
 #define SVECTOR_CLAMP(n) (n)>1?1:(n)<0?0:n
 
-V2 clamp01(V2 A) { return V2(SVECTOR_CLAMP(A.x), SVECTOR_CLAMP(A.y)); }
-V3 clamp01(V3 A) { return V3(SVECTOR_CLAMP(A.x), SVECTOR_CLAMP(A.y), SVECTOR_CLAMP(A.z)); }
-V4 clamp01(V4 A) { return V4(SVECTOR_CLAMP(A.x), SVECTOR_CLAMP(A.y), SVECTOR_CLAMP(A.z), SVECTOR_CLAMP(A.w)); }
+inline V2 clamp01(V2 A) { return V2(SVECTOR_CLAMP(A.x), SVECTOR_CLAMP(A.y)); }
+inline V3 clamp01(V3 A) { return V3(SVECTOR_CLAMP(A.x), SVECTOR_CLAMP(A.y), SVECTOR_CLAMP(A.z)); }
+inline V4 clamp01(V4 A) { return V4(SVECTOR_CLAMP(A.x), SVECTOR_CLAMP(A.y), SVECTOR_CLAMP(A.z), SVECTOR_CLAMP(A.w)); }
 
 #undef SVECTOR_CLAMP(n)
 
