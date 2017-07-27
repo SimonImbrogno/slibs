@@ -167,13 +167,13 @@ V4 normalize(V4 A) { return A * (1.0f / length(A)); }
 //CLAMP//
 /////////
 
-#define S_CLAMP(n) (n)>1?1:(n)<0?0:n
+#define SVECTOR_CLAMP(n) (n)>1?1:(n)<0?0:n
 
-V2 clamp01(V2 A) { return V2(S_CLAMP(A.x), S_CLAMP(A.y)); }
-V3 clamp01(V3 A) { return V3(S_CLAMP(A.x), S_CLAMP(A.y), S_CLAMP(A.z)); }
-V4 clamp01(V4 A) { return V4(S_CLAMP(A.x), S_CLAMP(A.y), S_CLAMP(A.z), S_CLAMP(A.w)); }
+V2 clamp01(V2 A) { return V2(SVECTOR_CLAMP(A.x), SVECTOR_CLAMP(A.y)); }
+V3 clamp01(V3 A) { return V3(SVECTOR_CLAMP(A.x), SVECTOR_CLAMP(A.y), SVECTOR_CLAMP(A.z)); }
+V4 clamp01(V4 A) { return V4(SVECTOR_CLAMP(A.x), SVECTOR_CLAMP(A.y), SVECTOR_CLAMP(A.z), SVECTOR_CLAMP(A.w)); }
 
-#undef S_CLAMP(n)
+#undef SVECTOR_CLAMP(n)
 
 
 
