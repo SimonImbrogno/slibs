@@ -173,7 +173,7 @@ inline V2 clamp01(V2 A) { return V2(SVECTOR_CLAMP(A.x), SVECTOR_CLAMP(A.y)); }
 inline V3 clamp01(V3 A) { return V3(SVECTOR_CLAMP(A.x), SVECTOR_CLAMP(A.y), SVECTOR_CLAMP(A.z)); }
 inline V4 clamp01(V4 A) { return V4(SVECTOR_CLAMP(A.x), SVECTOR_CLAMP(A.y), SVECTOR_CLAMP(A.z), SVECTOR_CLAMP(A.w)); }
 
-#undef SVECTOR_CLAMP(n)
+#undef SVECTOR_CLAMP
 
 
 
