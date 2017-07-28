@@ -11,13 +11,14 @@
 
 union Quat
 {
-    struct { f32 x, y, z, w; }; 
-    struct { V3 v, f32 s; }; 
+    struct { f32 x, y, z, w; };
     
     Quat()                           : x(0), y(0), z(0), w(1.0f) { }
     Quat(f32 x, f32 y, f32 z, f32 w) : x(x), y(y), z(z), w(w)    { }
     Quat(V3 axis, f32 angle)
     {
+        axis = normalize(axis);
+
         f32 hr_hangle = 0.5f*SQUAT_DTOR(angle);
         f32 sin_hr_hangle = sinf(hr_hangle);
         
@@ -122,7 +123,7 @@ inline Quat normalize(Quat A) { return A * (1.0f / norm(A)); }
 //INVERSE//
 ///////////
 
-inline Quat inverse(Quat A) { return (conjugate(A) / norm_sq(A)); }
+inline Quat inverse(Quat A) { return (conjugate(A) * (1.0f / norm_sq(A))); }
 
 
 
@@ -131,11 +132,15 @@ inline Quat inverse(Quat A) { return (conjugate(A) / norm_sq(A)); }
 //////////
 
 //Expects Q to be normalized
-inline V3 rotate(V3 V, Quat Q) { return ((Q * Quat(V, 0)) * inverse(Q)).v; }
+inline V3 rotate(V3 V, Quat Q)
+{
+    Quat result = ((Q * Quat(V.x, V.y, V.z, 0)) * inverse(Q)); 
+    return V3(result.x, result.y, result.z);
+}
 
 
-#undef SQUAT_DTOR(deg)
-#undef SQUAT_RTOD(rad)
+#undef SQUAT_DTOR
+#undef SQUAT_RTOD
 
 
 
