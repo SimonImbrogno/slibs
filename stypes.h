@@ -19,7 +19,17 @@ typedef u32 b32;
 typedef float f32;
 typedef double f64;
 
-//Assert for looking at variable contents in MSVC
+#define F32_E 0.000001
+#define F64_E 0.0000000000001
+
+//TODO: Using a static epsilon when comparing for zero may be bad
+//      In general a static epsilon could be improved on:
+//          - relative epsilon based on size of comparators
+//          - relative based on calculation
+//          - dwarven magyks
+inline b32 fiszero(f32 n, f32 e = F32_E) { return (n >= -e && n <= e); }
+inline b32 fiszero(f64 n, f64 e = F64_E) { return (n >= -e && n <= e); }
+
 #if ASSERT_OFF
     #define ASSERT(Expression)
     #define FORCE_FAIL()

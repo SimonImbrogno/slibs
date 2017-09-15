@@ -9,9 +9,9 @@
 #define SQUAT_DTOR(deg) (deg)*PI32/180.0f
 #define SQUAT_RTOD(rad) (rad)*180.0f/PI32
 
-union Quat
+struct Quat
 {
-    struct { f32 x, y, z, w; };
+    f32 x, y, z, w;
     
     Quat()                           : x(0), y(0), z(0), w(1.0f) { }
     Quat(f32 x, f32 y, f32 z, f32 w) : x(x), y(y), z(z), w(w)    { }
@@ -27,36 +27,6 @@ union Quat
         y = sin_hr_hangle*axis.y;
         z = sin_hr_hangle*axis.z;
     }
-    
-    //Euler angles
-    // Quat(f32 x, f32 y, f32 z)
-    // {
-    //     f64 theta;
-
-    //     theta = x * 0.5;
-    //     const f64 sr = sin(theta);
-    //     const f64 cr = cos(theta);
-
-    //     theta = y * 0.5;
-    //     const f64 sp = sin(theta);
-    //     const f64 cp = cos(theta);
-
-    //     theta = z * 0.5;
-    //     const f64 sy = sin(theta);
-    //     const f64 cy = cos(theta);
-
-    //     const f64 cpcy = cp * cy;
-    //     const f64 spcy = sp * cy;
-    //     const f64 cpsy = cp * sy;
-    //     const f64 spsy = sp * sy;
-
-    //     X = (f32)(sr * cpcy - cr * spsy);
-    //     Y = (f32)(cr * spcy + sr * cpsy);
-    //     Z = (f32)(cr * cpsy - sr * spcy);
-    //     W = (f32)(cr * cpcy + sr * spsy);
-
-    //     return normalize();
-    // }
 };
 
 ////////////
@@ -80,10 +50,12 @@ Quat operator-(Quat A, Quat B) { return Quat(A.x - B.x, A.y - B.y, A.z - B.z, A.
 //  (sa,va) * (sb,vb) = (sa*sb-va•vb, va×vb + sa*vb + sb*va)
 Quat operator*(Quat A, Quat B)
 { 
-    return Quat((A.w * B.x) + (A.x * B.w) + (A.y * B.z) - (A.z * B.y),
-                (A.w * B.y) - (A.x * B.z) + (A.y * B.w) + (A.z * B.x),
-                (A.w * B.z) + (A.x * B.y) - (A.y * B.x) + (A.z * B.w),
-                (A.w * B.w) - (A.x * B.x) - (A.y * B.y) - (A.z * B.z));
+    Quat result = Quat((A.w * B.x) + (A.x * B.w) + (A.y * B.z) - (A.z * B.y),
+                       (A.w * B.y) - (A.x * B.z) + (A.y * B.w) + (A.z * B.x),
+                       (A.w * B.z) + (A.x * B.y) - (A.y * B.x) + (A.z * B.w),
+                       (A.w * B.w) - (A.x * B.x) - (A.y * B.y) - (A.z * B.z));
+
+    return result;
 }
 
 Quat operator*=(Quat &A, Quat B) { A = A * B; return A; }
@@ -125,17 +97,37 @@ inline Quat normalize(Quat A) { return A * (1.0f / norm(A)); }
 
 inline Quat inverse(Quat A) { return (conjugate(A) * (1.0f / norm_sq(A))); }
 
-
-
 //////////
 //ROTATE//
 //////////
 
-//Expects Q to be normalized
-inline V3 rotate(V3 V, Quat Q)
+inline V3 
+rotate(V3 V, Quat Q)
 {
-    Quat result = ((Q * Quat(V.x, V.y, V.z, 0)) * inverse(Q)); 
+    Quat result = ((Q * Quat(V.x, V.y, V.z, 0)) * conjugate(Q));
     return V3(result.x, result.y, result.z);
+}
+
+///////////
+//EXTRACT//
+///////////
+
+inline 
+void get_angle_axis(Quat Q, f32 *angle, V3 *axis)
+{
+    f32 scale = sqrtf(Q.x*Q.x + Q.y*Q.y + Q.z*Q.z);
+
+    if (fiszero(scale) || fabs(Q.w) > 1.0f)
+    {
+        *angle  = 0.0f;
+        *axis = V3(0.0f, 1.0f, 0.0f);
+    }
+    else
+    {
+        f32 scale_inv = 1.0f / scale;
+        *angle  = 2.0f * SQUAT_RTOD(acosf(Q.w));
+        *axis = (V3(Q.x, Q.y, Q.z) * scale_inv);
+    }
 }
 
 
