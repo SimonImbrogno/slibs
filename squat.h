@@ -33,13 +33,13 @@ struct Quat
 //ADDITION//
 ////////////
 
-Quat operator+(Quat A, Quat B) { return Quat(A.x + B.x, A.y + B.y, A.z + B.z, A.w + B.w); }
+inline Quat operator+(Quat A, Quat B) { return Quat(A.x + B.x, A.y + B.y, A.z + B.z, A.w + B.w); }
 
 ///////////////
 //SUBTRACTION//
 ///////////////
 
-Quat operator-(Quat A, Quat B) { return Quat(A.x - B.x, A.y - B.y, A.z - B.z, A.w - B.w); }
+inline Quat operator-(Quat A, Quat B) { return Quat(A.x - B.x, A.y - B.y, A.z - B.z, A.w - B.w); }
 
 /////////////////////////////
 //QUATERNION MULTIPLICATION//
@@ -48,7 +48,7 @@ Quat operator-(Quat A, Quat B) { return Quat(A.x - B.x, A.y - B.y, A.z - B.z, A.
 //  q1 * q2 = [(a*e-b*f-c*g-d*h) + i(b*e+a*f+c*h-d*g) + j(a*g-b*h+c*e+d*f) + k(a*h+b*g-c*f+d*e)]
 //OR EQUIV:
 //  (sa,va) * (sb,vb) = (sa*sb-va•vb, va×vb + sa*vb + sb*va)
-Quat operator*(Quat A, Quat B)
+inline Quat operator*(Quat A, Quat B)
 { 
     Quat result = Quat((A.w * B.x) + (A.x * B.w) + (A.y * B.z) - (A.z * B.y),
                        (A.w * B.y) - (A.x * B.z) + (A.y * B.w) + (A.z * B.x),
@@ -58,7 +58,7 @@ Quat operator*(Quat A, Quat B)
     return result;
 }
 
-Quat operator*=(Quat &A, Quat B) { A = A * B; return A; }
+inline Quat operator*=(Quat &A, Quat B) { A = A * B; return A; }
 
 inline f32 dotprod(Quat A, Quat B) { return A.x*B.x + A.y*B.y + A.z*B.z + A.w*B.w; }
 
@@ -66,11 +66,11 @@ inline f32 dotprod(Quat A, Quat B) { return A.x*B.x + A.y*B.y + A.z*B.z + A.w*B.
 //SCALAR MULTIPLICATION//
 /////////////////////////
 
-Quat operator*(Quat A, f32 s) { return Quat(s*A.x, s*A.y, s*A.z, s*A.w); }
+inline Quat operator*(Quat A, f32 s) { return Quat(s*A.x, s*A.y, s*A.z, s*A.w); }
 
-Quat operator*(f32 s, Quat A) { return A*s; }
+inline Quat operator*(f32 s, Quat A) { return A*s; }
 
-Quat & operator*=(Quat &A, f32 s) { A = A*s; return A; }
+inline Quat & operator*=(Quat &A, f32 s) { A = A*s; return A; }
 
 /////////////
 //CONJUGATE//
