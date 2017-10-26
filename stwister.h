@@ -42,9 +42,9 @@ struct MersenneTwister
 
 //External
 inline f64 rand_f64         (MersenneTwister *mt); //In range [0, 1)
-inline f64 rand_f64_hr      (MersenneTwister *mt); //In range [0, 1), high resolution
 inline f64 rand_f64_closed  (MersenneTwister *mt); //In range [0, 1]
 inline f64 rand_f64_open    (MersenneTwister *mt); //In range (0, 1)
+inline f64 rand_f64_hr      (MersenneTwister *mt); //In range [0, 1), high resolution
 
 inline f32 rand_f32         (MersenneTwister *mt); //In range [0, 1)
 inline f32 rand_f32_closed  (MersenneTwister *mt); //In range [0, 1]
@@ -85,26 +85,13 @@ extract_u32(MersenneTwister *mt)
     return x ^ (x >> SLIBSMT__L);
 }
 
-inline f64
-rand_f64(MersenneTwister *mt)
-{
-    return (f64)extract_u32(mt) * (1.0 / 4294967296.0); // divided by 2^32
-}
+#define SLIBSMT__F64MULT (1.0 / 4294967296.0) // divided by 2^32
+#define SLIBSMT__F64MULTC (1.0 / 4294967295.0) // divided by 2^32 - 1
 
-inline f64
-rand_f64_closed(MersenneTwister *mt)
-{
-    return (f64)extract_u32(mt) * (1.0 / 4294967295.0); // divided by 2^32 - 1
-}
-
-inline f64
-rand_f64_open(MersenneTwister *mt)
-{
-    return ((f64)(extract_u32(mt)) + .5) * (1. / 4294967296.);  // divided by 2^32
-}
-
-inline f64
-rand_f64_hr(MersenneTwister *mt)
+inline f64 rand_f64(MersenneTwister *mt)        { return (f64)extract_u32(mt) * SLIBSMT__F64MULT;          }
+inline f64 rand_f64_closed(MersenneTwister *mt) { return (f64)extract_u32(mt) * SLIBSMT__F64MULTC;         }
+inline f64 rand_f64_open(MersenneTwister *mt)   { return ((f64)(extract_u32(mt)) + .5) * SLIBSMT__F64MULT; }
+inline f64 rand_f64_hr(MersenneTwister *mt)
 {
     return ((f64)(extract_u32(mt) >> 5) * 67108864.0 + 
             (f64)(extract_u32(mt) >> 6)) * (1. / 9007199254740992.0);
