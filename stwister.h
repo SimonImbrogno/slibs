@@ -22,19 +22,34 @@ struct MersenneTwister
 {
     u32 state_vector[SLIBSMT__N];
     u16 index;
+
+    //TODO: Constructor for init vector
+    MersenneTwister(u32 seed = SLIBSMT__DEFAULT_SEED)
+    {
+        state_vector[0] = seed;
+        
+        for(u32 i = 1; 
+            i < SLIBSMT__N; 
+            i++)
+        {
+            state_vector[i] = (SLIBSMT__F * (state_vector[i - 1] ^ (state_vector[i - 1] >> 30)) + i);
+        }
+
+        // force twist on next random
+        index = SLIBSMT__N;
+    }
 };
 
 //External
-inline void init_mersenne_twister  (MersenneTwister *mt, u32 seed = SLIBSMT__DEFAULT_SEED);
-inline u32  rand_u32               (MersenneTwister *mt); //In range [0, 4294967295]
-inline f64  rand_f64               (MersenneTwister *mt); //In range [0, 1)
-inline f64  rand_f64_closed        (MersenneTwister *mt); //In range [0, 1]
-inline f64  rand_f64_open          (MersenneTwister *mt); //In range (0, 1)
-inline f64  rand_f64_hr            (MersenneTwister *mt); //In range [0, 1)
+inline u32  rand_u32        (MersenneTwister *mt); //In range [0, 4294967295]
+inline f64  rand_f64        (MersenneTwister *mt); //In range [0, 1)
+inline f64  rand_f64_hr     (MersenneTwister *mt); //In range [0, 1), high resolution
+inline f64  rand_f64_closed (MersenneTwister *mt); //In range [0, 1]
+inline f64  rand_f64_open   (MersenneTwister *mt); //In range (0, 1)
 
 //Internal
-inline void twist                  (MersenneTwister *mt);
-inline u32  extract_u32            (MersenneTwister *mt);
+inline void twist           (MersenneTwister *mt);
+inline u32  extract_u32     (MersenneTwister *mt);
 
 
 inline void 
