@@ -87,6 +87,7 @@ extract_u32(MersenneTwister *mt)
     return x ^ (x >> SLIBSMT__L);
 }
 
+
 #define SLIBSMT__F64MULT (1.0 / 4294967296.0) // divided by 2^32
 #define SLIBSMT__F64MULTC (1.0 / 4294967295.0) // divided by 2^32 - 1
 
@@ -104,6 +105,10 @@ inline f32 rand_f32_closed(MersenneTwister *mt) { return (f32)rand_f64_closed(mt
 inline f32 rand_f32_open(MersenneTwister *mt)   { return (f32)rand_f64_open(mt);    }
 
 inline u32 rand_u32(MersenneTwister *mt)        { return extract_u32(mt);           }
+
+#undef SLIBSMT__F64MULT
+#undef SLIBSMT__F64MULTC
+
 
 //--------------------------------
 //--------------------------------
