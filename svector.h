@@ -139,6 +139,10 @@ inline f32 dotprod(V2 A, V2 B) { return (A.x*B.x) + (A.y*B.y); }
 inline f32 dotprod(V3 A, V3 B) { return (A.x*B.x) + (A.y*B.y) + (A.z*B.z); }
 inline f32 dotprod(V4 A, V4 B) { return (A.x*B.x) + (A.y*B.y) + (A.z*B.z) + (A.w*B.w); }
 
+//NOTE: V2 cross?
+inline V3 cross(V3 A, V3 B) { return V3(A.y*B.z - A.z*B.y, A.z*B.x - A.x*B.z, A.x*B.y - A.y*B.x); }
+//NOTE: V4 cross(es)?
+
 inline V2 hadamard(V2 A, V2 B) { return V2(A.x*B.x, A.y*B.y); }
 inline V3 hadamard(V3 A, V3 B) { return V3(A.x*B.x, A.y*B.y, A.z*B.z); }
 inline V4 hadamard(V4 A, V4 B) { return V4(A.x*B.x, A.y*B.y, A.z*B.z, A.w*B.w); }
@@ -167,13 +171,13 @@ inline V4 normalize(V4 A) { return A * (1.0f / length(A)); }
 //CLAMP//
 /////////
 
-#define SVECTOR_CLAMP(n) (n)>1?1:(n)<0?0:n
+#define SLIBSV__CLAMP(n) (n)>1?1:(n)<0?0:n
 
-inline V2 clamp01(V2 A) { return V2(SVECTOR_CLAMP(A.x), SVECTOR_CLAMP(A.y)); }
-inline V3 clamp01(V3 A) { return V3(SVECTOR_CLAMP(A.x), SVECTOR_CLAMP(A.y), SVECTOR_CLAMP(A.z)); }
-inline V4 clamp01(V4 A) { return V4(SVECTOR_CLAMP(A.x), SVECTOR_CLAMP(A.y), SVECTOR_CLAMP(A.z), SVECTOR_CLAMP(A.w)); }
+inline V2 clamp01(V2 A) { return V2(SLIBSV__CLAMP(A.x), SLIBSV__CLAMP(A.y)); }
+inline V3 clamp01(V3 A) { return V3(SLIBSV__CLAMP(A.x), SLIBSV__CLAMP(A.y), SLIBSV__CLAMP(A.z)); }
+inline V4 clamp01(V4 A) { return V4(SLIBSV__CLAMP(A.x), SLIBSV__CLAMP(A.y), SLIBSV__CLAMP(A.z), SLIBSV__CLAMP(A.w)); }
 
-#undef SVECTOR_CLAMP
+#undef SLIBSV__CLAMP
 
 
 
