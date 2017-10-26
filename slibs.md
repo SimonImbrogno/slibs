@@ -7,9 +7,10 @@
  - Slibs do not make use of c++ classes.
  - Slibs do not make use of c++ templates.
  - Slibs do not make use of member functions with the exception of struct constructors.
- - They have some important differences from STB libs:
-    - Slibs do not make use of namespaces and are not meant to be compliant with C projects. (You may run into name conflicts)
-    - Slibs declare all functions inline, and do not use a #define to create the implementation.
+ - Slibs do not make use of namespaces and are not meant to be compliant with C projects. (You may run into name conflicts)
+ - Slibs declare all functions inline and may lead to larger compiled executables.
+ - Slibs do not use a #define to create the implementation (the way STB libs do).
+
 ---
 #### stypes.h
  A collection of concise typedefs for the basic types and some helpful macros. Used as a base for other Slibs.
