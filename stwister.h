@@ -56,6 +56,8 @@ inline u32 rand_u32         (MersenneTwister *mt); //In range [0, 4294967295]
 inline void twist           (MersenneTwister *mt);
 inline u32  extract_u32     (MersenneTwister *mt);
 
+//--------------------------------
+//--------------------------------
 
 inline void 
 twist(MersenneTwister *mt)
@@ -103,6 +105,8 @@ inline f32 rand_f32_open(MersenneTwister *mt)   { return (f32)rand_f64_open(mt);
 
 inline u32 rand_u32(MersenneTwister *mt)        { return extract_u32(mt);           }
 
+//--------------------------------
+//--------------------------------
 
 #undef SLIBSMT__DEFAULT_SEED
 #undef SLIBSMT__N
