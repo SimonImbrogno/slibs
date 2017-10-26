@@ -41,11 +41,16 @@ struct MersenneTwister
 };
 
 //External
-inline u32  rand_u32        (MersenneTwister *mt); //In range [0, 4294967295]
-inline f64  rand_f64        (MersenneTwister *mt); //In range [0, 1)
-inline f64  rand_f64_hr     (MersenneTwister *mt); //In range [0, 1), high resolution
-inline f64  rand_f64_closed (MersenneTwister *mt); //In range [0, 1]
-inline f64  rand_f64_open   (MersenneTwister *mt); //In range (0, 1)
+inline f64 rand_f64         (MersenneTwister *mt); //In range [0, 1)
+inline f64 rand_f64_hr      (MersenneTwister *mt); //In range [0, 1), high resolution
+inline f64 rand_f64_closed  (MersenneTwister *mt); //In range [0, 1]
+inline f64 rand_f64_open    (MersenneTwister *mt); //In range (0, 1)
+
+inline f32 rand_f32         (MersenneTwister *mt); //In range [0, 1)
+inline f32 rand_f32_closed  (MersenneTwister *mt); //In range [0, 1]
+inline f32 rand_f32_open    (MersenneTwister *mt); //In range (0, 1)
+
+inline u32 rand_u32         (MersenneTwister *mt); //In range [0, 4294967295]
 
 //Internal
 inline void twist           (MersenneTwister *mt);
@@ -80,30 +85,6 @@ extract_u32(MersenneTwister *mt)
     return x ^ (x >> SLIBSMT__L);
 }
 
-inline void
-init_mersenne_twister(MersenneTwister *mt, u32 seed)
-{
-    u32 *state = mt->state_vector;
-    state[0] = seed;
-    
-    for(u32 i = 1; 
-        i < SLIBSMT__N; 
-        i++)
-    {
-        state[i] = (SLIBSMT__F * (state[i - 1] ^ (state[i - 1] >> 30)) + i);
-    }
-
-    // force twist on next random
-    mt->index = SLIBSMT__N;
-    state[SLIBSMT__N] = 0;
-}
-
-inline u32
-rand_u32(MersenneTwister *mt)
-{
-    return extract_u32(mt);
-}
-
 inline f64
 rand_f64(MersenneTwister *mt)
 {
@@ -128,6 +109,12 @@ rand_f64_hr(MersenneTwister *mt)
     return ((f64)(extract_u32(mt) >> 5) * 67108864.0 + 
             (f64)(extract_u32(mt) >> 6)) * (1. / 9007199254740992.0);
 }
+
+inline f32 rand_f32(MersenneTwister *mt)        { return (f32)rand_f64(mt);         }
+inline f32 rand_f32_closed(MersenneTwister *mt) { return (f32)rand_f64_closed(mt);  }
+inline f32 rand_f32_open(MersenneTwister *mt)   { return (f32)rand_f64_open(mt);    }
+
+inline u32 rand_u32(MersenneTwister *mt)        { return extract_u32(mt);           }
 
 
 #undef SLIBSMT__DEFAULT_SEED
