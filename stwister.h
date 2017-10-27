@@ -80,7 +80,7 @@ inline u32
 extract_u32(MersenneTwister *mt)
 {
     if (mt->index >= SLIBSMT__N) twist(mt);
-    u32 x = mt->state_vector[mt->index];
+    u32 x = mt->state_vector[mt->index++];
     x ^= (x >> SLIBSMT__U);
     x ^= (x << SLIBSMT__S) & SLIBSMT__B;
     x ^= (x << SLIBSMT__T) & SLIBSMT__C;
