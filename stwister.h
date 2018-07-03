@@ -97,7 +97,7 @@ inline f64 rand_f64_open(MersenneTwister *mt)   { return ((f64)(extract_u32(mt))
 inline f64 rand_f64_hr(MersenneTwister *mt)
 {
     return ((f64)(extract_u32(mt) >> 5) * 67108864.0 + 
-            (f64)(extract_u32(mt) >> 6)) * (1. / 9007199254740992.0);
+            (f64)(extract_u32(mt) >> 6)) * (1.0 / 9007199254740992.0);
 }
 
 inline f32 rand_f32(MersenneTwister *mt)        { return (f32)rand_f64(mt);         }

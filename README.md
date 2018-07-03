@@ -1,6 +1,6 @@
 # Slibs
 
- Slibs is a collection of **S**imple **Lib**rarie**s** similar in style to Sean Barret's [STB libraries](https://github.com/nothings/stb). They are created for personal use as I find them necessary, and as such are written in a style I personally find most comfortable.  
+ Slibs is a collection of **S**imple **Lib**rarie**s**. They are created for personal use as I find them necessary, and as such are written in a style I personally find most comfortable.  
  
  Some Things to Note:
  - Slibs are all single file header libraries. Simply include the header (and ensure the dependancies are present) to use.
