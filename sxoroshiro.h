@@ -1,4 +1,6 @@
-#include <stypes.h>
+#include "stypes.h"
+
+#include <stdio.h>
 
 struct Xorshiro
 {
@@ -35,23 +37,27 @@ extract_u64(Xorshiro &gen) {
 	return s0 + s1;
 }
 
-inline u64 random_u64(Xorshiro &gen) { return       extract_u64(gen);        }
-inline u32 random_u32(Xorshiro &gen) { return (u32)(extract_u64(gen) >> 32); }
-inline u16 random_u16(Xorshiro &gen) { return (u16)(extract_u64(gen) >> 48); }
-inline u8  random_u8 (Xorshiro &gen) { return (u8) (extract_u64(gen) >> 56); }
+inline u64 rand_u64(Xorshiro &gen) { return       extract_u64(gen);        }
+inline u32 rand_u32(Xorshiro &gen) { return (u32)(extract_u64(gen) >> 32); }
+inline u16 rand_u16(Xorshiro &gen) { return (u16)(extract_u64(gen) >> 48); }
+inline u8  rand_u8 (Xorshiro &gen) { return (u8) (extract_u64(gen) >> 56); }
 
-inline s64 random_s64(Xorshiro &gen) { return (s64) extract_u64(gen);        }
-inline s32 random_s32(Xorshiro &gen) { return (s32)(extract_u64(gen) >> 32); }
-inline s16 random_s16(Xorshiro &gen) { return (s16)(extract_u64(gen) >> 48); }
-inline s8  random_s8 (Xorshiro &gen) { return (s8) (extract_u64(gen) >> 56); }
+inline s64 rand_s64(Xorshiro &gen) { return (s64) extract_u64(gen);        }
+inline s32 rand_s32(Xorshiro &gen) { return (s32)(extract_u64(gen) >> 32); }
+inline s16 rand_s16(Xorshiro &gen) { return (s16)(extract_u64(gen) >> 48); }
+inline s8  rand_s8 (Xorshiro &gen) { return (s8) (extract_u64(gen) >> 56); }
 
-// Slightly janky. Distributions ever so slightly skewed. Rounding might cause some sillyness as well.
-inline f32 random_f32       (Xorshiro &gen) { return ((f32)(extract_u64(gen) >> 32)) / 4294967296.0; } // divided by 2^32
-inline f32 random_f32_closed(Xorshiro &gen) { return ((f32)(extract_u64(gen) >> 32)) / 4294967295.0; } // divided by 2^32 -1
-// Slightly more janky. 
-inline f32 random_f32_open  (Xorshiro &gen) { return (((f32)(extract_u64(gen) >> 32)) + .5f) / 4294967296.0; } // divided by 2^32
+//In range [0, 1)
+inline f64 rand_f64 			(Xorshiro &gen) { return (f64)rand_u32(gen) / 4294967296.0;          }
+//In range [0, 1]
+inline f64 rand_f64_closed(Xorshiro &gen) { return (f64)rand_u32(gen) / 4294967295.0;          }
+//In range (0, 1)
+inline f64 rand_f64_open 	(Xorshiro &gen) { return ((f64)(rand_u32(gen)) + .5) / 4294967296.0; }
+//In range [0, 1), high resolution
+inline f64 rand_f64_hr 		(Xorshiro &gen)
+{
+  return ((f64)(rand_u32(gen) >> 5) * 67108864.0 + 
+          (f64)(rand_u32(gen) >> 6)) * (1.0 / 9007199254740992.0);
+}
 
-//TODO: really silly bad no good statistial tests!
-
-inline u64 random_b32(Xorshiro &gen) { return (extract_u64(gen) > 0); }
-
+inline u64 rand_b32(Xorshiro &gen) { return (extract_u64(gen) > 0); }
