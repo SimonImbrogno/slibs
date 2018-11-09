@@ -34,3 +34,9 @@
  Implementation of the Mersenne Twister PRNG.
  
 ---
+#### sxoroshiro.h
+ ***Requires:*** `stypes.h`
+
+ Implementation of the Xoroshiro128+ PRNG.
+ 
+---
