@@ -9,7 +9,7 @@
  - Slibs do not make use of member functions with the exception of struct constructors.
  - Slibs do not make use of namespaces and are not meant to be compliant with C projects. (You may run into name conflicts)
  - Slibs declare all functions inline and may lead to larger compiled executables.
- - Slibs do not use a #define to create the implementation (the way STB libs do).
+ - Slibs do not use a #define to create the implementation. (This _will_ cause you headaches. They are not suitable for use in non-trivial codebases)
 
 ---
 #### stypes.h
